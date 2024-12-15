@@ -14,7 +14,10 @@ const SearchParamsHandler = () => {
 
     const onLocationChange = () => {
         const { origin, hash, search } = window.location;
-        const { searchParams } = new URL(`${origin}${hash.replace('#', '')}${search}`);
+        // Fix: Ensure the entire query string is captured as a single string, including special characters like '&'
+    const url = new URL(`${origin}${hash.replace('#', '')}${search ? search : ''}`);
+    const { searchParams } = url;
+
 
         setSearchParams((previousSearchParams) => {
             const currentSearchParams = Object.fromEntries(searchParams.entries());
